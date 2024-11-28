@@ -31,6 +31,7 @@ const Dashboard = () => {
     <div className="flex w-full min-h-screen">
       {/* Left Sidebar */}
       <nav className="w-1/4 bg-gray-800 text-white flex flex-col p-4 space-y-4">
+        <ConnectButton client={client} />
         <button
           onClick={() => setActiveSection("TokenSale")}
           className={`p-3 rounded ${

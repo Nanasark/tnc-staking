@@ -4,7 +4,8 @@ import { contract } from "@/app/contract";
 import { useState } from "react";
 
 export default function Withdraw() {
-  const { mutate: sendTx, error: eRROR } = useSendTransaction();
+  const { mutate: sendTx, error: eRROR, status } = useSendTransaction();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const withdraw = async () => {
     try {
@@ -15,6 +16,13 @@ export default function Withdraw() {
       })) as PreparedTransaction;
 
       await sendTx(transaction);
+      if (status === "pending") {
+        setIsLoading(true);
+      }
+      if (status === "success") {
+        setIsLoading(false);
+        alert("transaction success");
+      }
     } catch (error) {
       console.log(eRROR);
     }
@@ -23,10 +31,11 @@ export default function Withdraw() {
   return (
     <div className=" text-black content-center text-center  w-full h-full ">
       <button
+        type="button"
         className="content-center text-center bg-blue-500 w-[400px] h-[45px] rounded-md"
         onClick={() => withdraw()}
       >
-        Withdraw All Tokens
+        {isLoading ? "Loading ..." : " Withdraw All Tokens"}
       </button>
     </div>
   );
