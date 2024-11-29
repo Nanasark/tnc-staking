@@ -4,6 +4,7 @@ import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { client } from "@/app/client";
 import Withdraw from "./withdraw";
 import TokenSale from "./tokenSale";
+import Activities from "./activities";
 
 // Main Dashboard Component
 const Dashboard = () => {
@@ -74,8 +75,5 @@ const Dashboard = () => {
   );
 };
 
-// Placeholder Components
-
-const Activities = () => <div className="p-4">Activities Component</div>;
 
 export default Dashboard;
