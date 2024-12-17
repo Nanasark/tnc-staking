@@ -5,10 +5,16 @@ import { client } from "@/app/client";
 import Withdraw from "./withdraw";
 import TokenSale from "./tokenSale";
 import Activities from "./activities";
+import { chain } from "@/app/chain";
+import { createWallet } from "thirdweb/wallets";
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState("TokenSale");
   const address = useActiveAccount()?.address;
+  const wallets = [
+    createWallet("io.metamask"),
+    createWallet("com.trustwallet.app"),
+  ];
 
   const renderComponent = () => {
     switch (activeSection) {
@@ -30,7 +36,26 @@ const Dashboard = () => {
       {/* Left Sidebar */}
       <nav className="w-full md:w-1/4 bg-blue-800 text-white flex flex-col p-4 space-y-4">
         <div className="mb-6">
-          <ConnectButton client={client} />
+          <ConnectButton
+            client={client}
+            chain={chain}
+            supportedTokens={{
+              56: [
+                {
+                  name: "TECHS NETWORK TOKEN",
+                  address: "0x170b47f039d006396929F7734228fFc53Ab155b2",
+                  symbol: "TNC",
+                },
+              ],
+            }}
+            theme={"light"}
+            wallets={wallets}
+            showAllWallets={false}
+            connectButton={{
+              className: "connect",
+              label: "Sign in",
+            }}
+          />
         </div>
         {["TokenSale", "UpdatePrice", "Withdraw", "Activities"].map(
           (section) => (
@@ -58,7 +83,26 @@ const Dashboard = () => {
           renderComponent()
         ) : (
           <div className="flex items-center justify-center h-full">
-            <ConnectButton client={client} />
+            <ConnectButton
+              client={client}
+              chain={chain}
+              supportedTokens={{
+                56: [
+                  {
+                    name: "TECHS NETWORK TOKEN",
+                    address: "0x170b47f039d006396929F7734228fFc53Ab155b2",
+                    symbol: "TNC",
+                  },
+                ],
+              }}
+              theme={"light"}
+              wallets={wallets}
+              showAllWallets={false}
+              connectButton={{
+                className: "connect",
+                label: "Sign in",
+              }}
+            />
           </div>
         )}
       </main>
