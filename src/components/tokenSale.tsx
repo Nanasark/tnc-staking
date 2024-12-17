@@ -4,56 +4,79 @@ import { toEther } from "thirdweb";
 import { useReadContract } from "thirdweb/react";
 
 export default function TokenSale() {
-  const { data: sold, isPending } = useReadContract({
-    contract,
-    method: "soldTokens",
+  const { data: rate } = useReadContract({
+    contract: contract,
+    method: "rate",
     params: [],
   });
-  const { data: tokenprice, error } = useReadContract({
+  const { data: bnbRaised, isLoading:loading, isError:error } = useReadContract({
     contract: contract,
-    method: "getTokenPrice",
-    params: [],
-  });
-  const { data: tokenAddress } = useReadContract({
-    contract: contract,
-    method: "getTokenAddress",
+    method: "weiRaised",
     params: [],
   });
 
-  const token_price = tokenprice ? toEther(tokenprice) : "";
+  const rateInEther = rate ? toEther(rate) : 610;
+
+  if (bnbRaised) {
+    console.log("raised:", bnbRaised);
+  }
+
+  const BNBRaised = bnbRaised ? toEther(bnbRaised) : "0";
+  console.log("raised:", BNBRaised);
+  const sold = Number(BNBRaised) * Number(rateInEther);
 
   return (
-    <main>
-      <div className="flex text-black border-black w-[700px] h-[200px]">
-        <div className="flex flex-col w-1/3">
-          <p className="border-black w-full h-full content-center text-center border-[1px]">
-            Token Address
-          </p>
-          <p className="border-black w-full h-full content-center text-center border-[1px]">
-            Current Token Price
-          </p>
-          <p className="border-black w-full h-full content-center text-center border-[1px]">
-            Total Token Sold
-          </p>
-          {/* <p className="border-black w-full h-full content-center text-center border-[1px]">
-            Total BNB
-          </p> */}
+    <main className="w-full bg-white rounded-lg shadow-md overflow-hidden">
+      <h2 className="text-2xl font-bold text-blue-900 p-6 border-b">
+        Token Sale Summary
+      </h2>
+
+      {!loading && !error && (
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-blue-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">
+                  Metric
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">
+                  Value
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-blue-100">
+              <tr className="hover:bg-blue-50">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-900">
+                  Total BNB Raised
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-900">
+                  {BNBRaised}
+                </td>
+              </tr>
+              <tr className="hover:bg-blue-50">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-900">
+                  Total Token Sold
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-900">
+                  {sold.toString()}
+                </td>
+              </tr>
+              {/* Uncomment and add more rows as needed */}
+              {/* <tr className="hover:bg-blue-50">
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-900">
+              Current Token Price
+            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-900">
+              {token_price.toString()}
+            </td>
+          </tr> */}
+            </tbody>
+          </table>
         </div>
-        <div className="flex flex-col w-2/3">
-          <p className="border-black w-full h-full content-center text-center border-[1px]">
-            {tokenAddress?.toString()}
-          </p>
-          <p className="border-black w-full h-full content-center text-center border-[1px]">
-            {token_price.toString()}
-          </p>
-          <p className="border-black w-full h-full content-center text-center border-[1px]">
-            {sold?.toString()}
-          </p>
-          {/* <p className="border-black w-full h-full content-center text-center border-[1px]">
-            {totalBNB.}
-          </p> */}
-        </div>
-      </div>
+      )}
+
+      {loading && <p className="text-blue-500 p-6">Loading...</p>}
+      {error && <p className="text-red-500 p-6">Error: {error}</p>}
     </main>
   );
 }

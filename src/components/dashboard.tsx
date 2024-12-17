@@ -6,13 +6,10 @@ import Withdraw from "./withdraw";
 import TokenSale from "./tokenSale";
 import Activities from "./activities";
 
-// Main Dashboard Component
 const Dashboard = () => {
-  // State to track the active section
   const [activeSection, setActiveSection] = useState("TokenSale");
   const address = useActiveAccount()?.address;
 
-  // Components mapping
   const renderComponent = () => {
     switch (activeSection) {
       case "TokenSale":
@@ -29,51 +26,44 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex w-full min-h-screen">
+    <div className="flex flex-col md:flex-row w-full min-h-screen bg-blue-50">
       {/* Left Sidebar */}
-      <nav className="w-1/4 bg-gray-800 text-white flex flex-col p-4 space-y-4">
-        <ConnectButton client={client} />
-        <button
-          onClick={() => setActiveSection("TokenSale")}
-          className={`p-3 rounded ${
-            activeSection === "TokenSale" ? "bg-gray-600" : ""
-          }`}
-        >
-          TokenSale
-        </button>
-        <button
-          onClick={() => setActiveSection("UpdatePrice")}
-          className={`p-3 rounded ${
-            activeSection === "UpdatePrice" ? "bg-gray-600" : ""
-          }`}
-        >
-          UpdatePrice
-        </button>
-        <button
-          onClick={() => setActiveSection("Withdraw")}
-          className={`p-3 rounded ${
-            activeSection === "Withdraw" ? "bg-gray-600" : ""
-          }`}
-        >
-          Withdraw
-        </button>
-        <button
-          onClick={() => setActiveSection("Activities")}
-          className={`p-3 rounded ${
-            activeSection === "Activities" ? "bg-gray-600" : ""
-          }`}
-        >
-          Activities
-        </button>
+      <nav className="w-full md:w-1/4 bg-blue-800 text-white flex flex-col p-4 space-y-4">
+        <div className="mb-6">
+          <ConnectButton client={client} />
+        </div>
+        {["TokenSale", "UpdatePrice", "Withdraw", "Activities"].map(
+          (section) => (
+            <button
+              key={section}
+              onClick={() => setActiveSection(section)}
+              className={`p-3 rounded transition-colors duration-200 ${
+                activeSection === section
+                  ? "bg-blue-600 text-white"
+                  : "text-blue-100 hover:bg-blue-700"
+              }`}
+            >
+              {section}
+            </button>
+          )
+        )}
       </nav>
 
       {/* Right Content Area */}
-      <main className=" flex w-3/4 p-6 items-center justify-center bg-gray-100">
-        {address ? renderComponent() : <ConnectButton client={client} />}
+      <main className="flex-grow p-6 bg-white shadow-lg m-4 rounded-lg">
+        <h1 className="text-3xl font-bold text-blue-900 mb-6">
+          {activeSection}
+        </h1>
+        {address ? (
+          renderComponent()
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <ConnectButton client={client} />
+          </div>
+        )}
       </main>
     </div>
   );
 };
-
 
 export default Dashboard;

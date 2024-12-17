@@ -1,3 +1,3 @@
-import { polygonAmoy } from "thirdweb/chains";
+import { bsc } from "thirdweb/chains";
 
-export const chain = polygonAmoy;
+export const chain = bsc;
