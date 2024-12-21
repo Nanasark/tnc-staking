@@ -23,6 +23,8 @@ export default function StakingSection() {
       ? one80Days
       : thirtyDays;
 
+  //contract details are below
+
   const { data: minStake, error: minStakeError } = useReadContract({
     contract,
     method: "getMinimumStakingAmount",
@@ -32,17 +34,16 @@ export default function StakingSection() {
     minStake && minStakeError === null
       ? Number(toEther(minStake))
       : "loading ..";
-  
-   const { data: maxStake, error: maxStakeError } = useReadContract({
-     contract,
-     method: "getMaxStakingTokenLimit",
-   });
 
-   const maximumStake =
-     maxStake && maxStakeError === null
-       ? Number(toEther(maxStake))
-       : "loading ..";
+  const { data: maxStake, error: maxStakeError } = useReadContract({
+    contract,
+    method: "getMaxStakingTokenLimit",
+  });
 
+  const maximumStake =
+    maxStake && maxStakeError === null
+      ? Number(toEther(maxStake))
+      : "loading ..";
 
   const {
     data: apy,
@@ -100,6 +101,22 @@ export default function StakingSection() {
   });
 
   const contractStatus = statusLoading ? "loading" : status;
+
+  const {
+    data: totalstakeAmount,
+    error: totalstakeAmountError,
+    isLoading: totalstakeAmountLoading,
+  } = useReadContract({
+    contract,
+    method: "getTotalStakedTokens",
+  });
+
+  const totalstakeAmnt =
+    totalstakeAmount && totalstakeAmountError === null
+      ? Number(toEther(totalstakeAmount))
+      : totalstakeAmountLoading
+      ? "loading.."
+      : 0;
   const contractDetails = {
     address: contract.address,
     apy: apyPercent,
@@ -108,7 +125,10 @@ export default function StakingSection() {
     startDate: startDate,
     endDate: endDate,
     status: contractStatus,
+    totalcontractStake: totalstakeAmnt,
   };
+
+  //user details are below sigh
 
   const {
     data: userDetail,
@@ -119,22 +139,6 @@ export default function StakingSection() {
     method: "getUser",
     params: [address],
   });
-
-  // const {
-  //   data: stakeAmount,
-  //   error: stakeAmountError,
-  //   isLoading: stakeAmountLoading,
-  // } = useReadContract({
-  //   contract,
-  //   method: "getTotalStakedTokens",
-  // });
-
-  // const stakeAmnt =
-  //   stakeAmount && stakeAmountError === null
-  //     ? Number(toEther(stakeAmount))
-  //     : stakeAmountLoading
-  //     ? "loading.."
-  //     : 0;
 
   const stakeAmnt =
     userDetail && userDetailError === null

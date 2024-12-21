@@ -21,6 +21,7 @@ interface ContractDetails {
   endDate: string;
   status: boolean | undefined | string;
   maxStake: number | Error | string;
+  totalcontractStake: number | string;
 }
 
 interface UserDetails {
@@ -153,8 +154,12 @@ export default function StakingInfo({
               <p className="text-blue-900">{contractDetails.endDate}</p>
             </div>
             <div className="bg-blue-50 p-3 rounded-lg">
-              <span className="font-medium text-blue-700">End Date:</span>
-              <p className="text-blue-900">{contractDetails.endDate}</p>
+              <span className="font-medium text-blue-700">
+                Total Staked in Pool:
+              </span>
+              <p className="text-blue-900">
+                {contractDetails.totalcontractStake.toString()} TNC
+              </p>
             </div>
             <div className="bg-blue-50 p-3 rounded-lg">
               <span className="font-medium text-blue-700">Status</span>
@@ -256,10 +261,12 @@ export default function StakingInfo({
                   <input
                     type="number"
                     id="amount"
+                    min="0"
+                    step="1"
                     value={inputAmount}
                     onChange={(e) => setInputAmount(e.target.value)}
                     placeholder="Enter amount"
-                    className="w-full px-3 py-2 border text-gray-500 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="no-spinner w-full px-3 py-2 border text-gray-500 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
                 )}
@@ -293,7 +300,6 @@ export default function StakingInfo({
                   showAllWallets={false}
                   connectButton={{
                     className: "custom-button",
-
                     label: "Sign in to stake",
                   }}
                 />

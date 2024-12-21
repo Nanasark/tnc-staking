@@ -21,9 +21,9 @@ const CircleStatus: React.FC<CircleStatusProps> = ({ contractStatus }) => {
     <div className="flex items-center gap-1">
       {/* Circle Indicator */}
       <div
-        className={`rounded-full w-3 h-3
-          ${contractStatus === "loading" ? "hidden" : ""}
-          ${contractStatus === true ? "bg-yellow-500" : ""}
+        className={`rounded-full w-2.5 h-2.5
+          ${contractStatus === "loading" ? "hidden w-2.5 h-2.5" : ""}
+          ${contractStatus === true ? "w-2.5 h-2.5 bg-yellow-500" : ""}
           ${contractStatus === false ? "w-2.5 h-2.5 bg-green-500 pulse" : ""}`}
       ></div>
 
