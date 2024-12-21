@@ -13,7 +13,12 @@ export default function Footer() {
             <Link href="/features" className="hover:text-gray-300">
               Features
             </Link>
-            <Link href="/roadmap" className="hover:text-gray-300">
+            <Link
+              href="/whitepaper.pdf"
+              target="_blank" // Open in a new tab
+              rel="noopener noreferrer" // Security best practice
+              className="hover:text-gray-300"
+            >
               Roadmap
             </Link>
             <Link href="/community" className="hover:text-gray-300">
@@ -30,7 +35,7 @@ export default function Footer() {
           </nav>
         </div>
         <div className="mt-8 text-center text-sm">
-          © 2024 @TECHS NETWORK, All Rights Reserved by @techsnetwork
+          © 2024 @TECHS NETWORK INC, All Rights Reserved by @techsnetwork
         </div>
       </div>
     </footer>

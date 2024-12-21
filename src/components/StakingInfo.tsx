@@ -1,10 +1,10 @@
 "use client";
 
-
 import { ninetyDays, one80Days, sixtyDays, thirtyDays } from "@/app/contract";
 import React, { useState } from "react";
 import { PreparedTransaction, prepareContractCall, toWei } from "thirdweb";
 import { useSendTransaction } from "thirdweb/react";
+import CircleStatus from "./circleStatus";
 
 interface ContractDetails {
   address: string;
@@ -12,6 +12,7 @@ interface ContractDetails {
   minStake: number | Error | string;
   startDate: string;
   endDate: string;
+  status: boolean | undefined | string;
 }
 
 interface UserDetails {
@@ -131,6 +132,12 @@ export default function StakingInfo({
               <span className="font-medium text-blue-700">End Date:</span>
               <p className="text-blue-900">{contractDetails.endDate}</p>
             </div>
+            <div className="bg-blue-50 p-3 rounded-lg">
+              <span className="font-medium text-blue-700">Status</span>
+              <p className="text-blue-900">
+                <CircleStatus contractStatus={contractDetails.status} />
+              </p>
+            </div>
           </div>
         </div>
 
@@ -141,7 +148,7 @@ export default function StakingInfo({
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div className="bg-green-50 p-3 rounded-lg">
-              <span className="font-medium text-green-700">Stake Amount:</span>
+              <span className="font-medium text-green-700">Staked Amount:</span>
               <p className="text-green-900">{userDetails.stakeAmount} TNC</p>
             </div>
             <div className="bg-green-50 p-3 rounded-lg">
@@ -218,7 +225,7 @@ export default function StakingInfo({
                   {activeAction === "stake"
                     ? "Stake Amount"
                     : activeAction === "unstake"
-                    ? "Withdraw Amount"
+                    ? "Unstake Amount"
                     : "Claim Total Reward"}
                 </label>
                 {activeAction !== "claim" && (

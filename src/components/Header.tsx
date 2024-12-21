@@ -31,36 +31,51 @@ export default function Header() {
             <Link href="/" className="text-gray-600 hover:text-gray-900">
               Home
             </Link>
-            <Link href="/project" className="text-gray-600 hover:text-gray-900">
+            <Link
+              href="https://techs.network/"
+              target="_blank" // Open in a new tab
+              rel="noopener noreferrer" // Security best practice
+              className="text-gray-600 hover:text-gray-900"
+            >
               Project
             </Link>
-            <Link href="/staking" className="text-gray-600 hover:text-gray-900">
-              Staking
+            <Link
+              href="https://buy.techs.network/"
+              target="_blank" // Open in a new tab
+              rel="noopener noreferrer" // Security best practice
+              className="text-gray-600 hover:text-gray-900"
+            >
+              Buy-Token
             </Link>
-            <Link href="/contact" className="text-gray-600 hover:text-gray-900">
+            <Link
+              href="https://techs.network/"
+              target="_blank" // Open in a new tab
+              rel="noopener noreferrer" // Security best practice
+              className="text-gray-600 hover:text-gray-900"
+            >
               Contact
             </Link>
           </nav>
           <div className="hidden md:block">
-                <ConnectButton
-                client={client}
-                chain={chain}
-                supportedTokens={{
-                  56: [
-                    {
-                      name: "TECHS NETWORK TOKEN",
-                      address: "0x170b47f039d006396929F7734228fFc53Ab155b2",
-                      symbol: "TNC",
-                    },
-                  ],
-                }}
-                theme={"light"}
-                wallets={wallets}
-                showAllWallets={false}
-                connectButton={{
-                  // className: "w-full bg-blue-500 text-white hover:bg-blue-600",
-                  label: "Sign in",
-                }}
+            <ConnectButton
+              client={client}
+              chain={chain}
+              supportedTokens={{
+                56: [
+                  {
+                    name: "TECHS NETWORK TOKEN",
+                    address: "0x170b47f039d006396929F7734228fFc53Ab155b2",
+                    symbol: "TNC",
+                  },
+                ],
+              }}
+              theme={"light"}
+              wallets={wallets}
+              showAllWallets={false}
+              connectButton={{
+                // className: "w-full bg-blue-500 text-white hover:bg-blue-600",
+                label: "Sign in",
+              }}
             />
           </div>
           <div className="md:hidden">

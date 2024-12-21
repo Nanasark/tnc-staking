@@ -67,7 +67,7 @@ export default function StakingSection() {
     isLoading: endDLoading,
   } = useReadContract({
     contract,
-    method: "getStakeStartDate",
+    method: "getStakeEndDate",
   });
 
   const endDate =
@@ -77,12 +77,25 @@ export default function StakingSection() {
       ? "loading.."
       : "---";
 
+  console.log("endd", endD);
+
+  const {
+    data: status,
+    error: statusError,
+    isLoading: statusLoading,
+  } = useReadContract({
+    contract,
+    method: "getStakingStatus",
+  });
+
+  const contractStatus = statusLoading ? "loading" : status;
   const contractDetails = {
     address: contract.address,
     apy: apyPercent,
     minStake: minimumStake,
     startDate: startDate,
     endDate: endDate,
+    status: contractStatus,
   };
 
   const {
@@ -92,7 +105,7 @@ export default function StakingSection() {
   } = useReadContract({
     contract,
     method: "getUser",
-    params: ["0x67Ce275c30e6031d666F194eF2Ce8E8De56D10Bf"],
+    params: [address],
   });
 
   // const {
