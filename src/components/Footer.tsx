@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Footer() {
@@ -6,7 +7,7 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
-            <h2 className="text-2xl font-bold">TNC</h2>
+              <Image src="/footer.png" alt="TNC Logo" width={200} height={50} />
           </div>
           <nav className="flex flex-wrap justify-center gap-4">
             <Link href="/features" className="hover:text-gray-300">Features</Link>

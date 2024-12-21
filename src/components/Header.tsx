@@ -25,7 +25,7 @@ export default function Header() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <Image src="/logo.png" alt="TNC Logo" width={50} height={50} />
+            <Image src="/logo.png" alt="TNC Logo" width={200} height={50} />
           </div>
           <nav className="hidden md:flex space-x-4">
             <Link href="/" className="text-gray-600 hover:text-gray-900">
