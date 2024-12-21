@@ -6,7 +6,7 @@ import { ThirdwebProvider } from "thirdweb/react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TNC ADMIN",
+  title: "TNC STAKING",
   description: "",
 };
 
