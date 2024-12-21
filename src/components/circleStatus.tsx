@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 
 interface CircleStatusProps {
-  contractStatus: string | boolean | undefined; // Precomputed status passed as a prop
+  contractStatus: string | boolean | undefined;
 }
 
 const CircleStatus: React.FC<CircleStatusProps> = ({ contractStatus }) => {
   const [isClient, setIsClient] = useState(false);
 
-  // Set state to true once component is mounted on the client
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // If not yet mounted (i.e., during SSR), show a placeholder or empty content
   if (!isClient) {
     return (
       <div className="rounded-full w-4 h-4 bg-gray-400 animate-pulse"></div>
@@ -23,10 +21,10 @@ const CircleStatus: React.FC<CircleStatusProps> = ({ contractStatus }) => {
     <div className="flex items-center gap-1">
       {/* Circle Indicator */}
       <div
-        className={`rounded-full w-4 h-4 
+        className={`rounded-full w-3 h-3
           ${contractStatus === "loading" ? "hidden" : ""}
           ${contractStatus === true ? "bg-yellow-500" : ""}
-          ${contractStatus === false ? "bg-green-500 pulse" : ""}`}
+          ${contractStatus === false ? "w-2.5 h-2.5 bg-green-500 pulse" : ""}`}
       ></div>
 
       {/* Status Text */}

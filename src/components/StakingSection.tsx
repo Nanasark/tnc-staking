@@ -32,6 +32,17 @@ export default function StakingSection() {
     minStake && minStakeError === null
       ? Number(toEther(minStake))
       : "loading ..";
+  
+   const { data: maxStake, error: maxStakeError } = useReadContract({
+     contract,
+     method: "getMaxStakingTokenLimit",
+   });
+
+   const maximumStake =
+     maxStake && maxStakeError === null
+       ? Number(toEther(maxStake))
+       : "loading ..";
+
 
   const {
     data: apy,
@@ -93,6 +104,7 @@ export default function StakingSection() {
     address: contract.address,
     apy: apyPercent,
     minStake: minimumStake,
+    maxStake: maximumStake,
     startDate: startDate,
     endDate: endDate,
     status: contractStatus,

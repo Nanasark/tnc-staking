@@ -3,8 +3,15 @@
 import { ninetyDays, one80Days, sixtyDays, thirtyDays } from "@/app/contract";
 import React, { useState } from "react";
 import { PreparedTransaction, prepareContractCall, toWei } from "thirdweb";
-import { useSendTransaction } from "thirdweb/react";
+import {
+  useSendTransaction,
+  useActiveAccount,
+  ConnectButton,
+} from "thirdweb/react";
 import CircleStatus from "./circleStatus";
+import { chain } from "@/app/chain";
+import { client } from "@/app/client";
+import { createWallet } from "thirdweb/wallets";
 
 interface ContractDetails {
   address: string;
@@ -13,6 +20,7 @@ interface ContractDetails {
   startDate: string;
   endDate: string;
   status: boolean | undefined | string;
+  maxStake: number | Error | string;
 }
 
 interface UserDetails {
@@ -48,6 +56,12 @@ export default function StakingInfo({
   >("stake");
   const [inputAmount, setInputAmount] = useState("");
 
+  const account = useActiveAccount();
+  const address = account ? account.address : "";
+  const wallets = [
+    createWallet("io.metamask"),
+    createWallet("com.trustwallet.app"),
+  ];
   const { mutateAsync: sendTx, error: txError } = useSendTransaction();
 
   const handleActionChange = (action: "stake" | "unstake" | "claim") => {
@@ -123,10 +137,20 @@ export default function StakingInfo({
               <p className="text-blue-900">
                 {contractDetails.minStake.toString()} TNC
               </p>
+            </div>{" "}
+            <div className="bg-blue-50 p-3 rounded-lg">
+              <span className="font-medium text-blue-700">Maximum Stake:</span>
+              <p className="text-blue-900">
+                {contractDetails.maxStake.toString()} TNC
+              </p>
             </div>
             <div className="bg-blue-50 p-3 rounded-lg">
               <span className="font-medium text-blue-700">Start Date:</span>
               <p className="text-blue-900">{contractDetails.startDate}</p>
+            </div>
+            <div className="bg-blue-50 p-3 rounded-lg">
+              <span className="font-medium text-blue-700">End Date:</span>
+              <p className="text-blue-900">{contractDetails.endDate}</p>
             </div>
             <div className="bg-blue-50 p-3 rounded-lg">
               <span className="font-medium text-blue-700">End Date:</span>
@@ -240,16 +264,40 @@ export default function StakingInfo({
                   />
                 )}
               </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
-              >
-                {activeAction === "stake"
-                  ? "Stake"
-                  : activeAction === "unstake"
-                  ? "unstake"
-                  : "Claim Reward"}
-              </button>
+              {address ? (
+                <button
+                  type="submit"
+                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                >
+                  {activeAction === "stake"
+                    ? "Stake"
+                    : activeAction === "unstake"
+                    ? "unstake"
+                    : "Claim Reward"}
+                </button>
+              ) : (
+                <ConnectButton
+                  client={client}
+                  chain={chain}
+                  supportedTokens={{
+                    56: [
+                      {
+                        name: "TECHS NETWORK TOKEN",
+                        address: "0x170b47f039d006396929F7734228fFc53Ab155b2",
+                        symbol: "TNC",
+                      },
+                    ],
+                  }}
+                  theme={"light"}
+                  wallets={wallets}
+                  showAllWallets={false}
+                  connectButton={{
+                    className: "custom-button",
+
+                    label: "Sign in to stake",
+                  }}
+                />
+              )}
             </form>
           </div>
         </div>
